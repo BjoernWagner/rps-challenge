@@ -25,24 +25,9 @@ class RPS < Sinatra::Base
   end
 
   get '/see_selected' do
-    @selected_by_player = session[:player_selection]
-    array = ["Rock", "Paper", "Scissors"].sample
-    @selected_by_ai = array
-    if @selected_by_player == @selected_by_ai
-      @winner = 'Nobody'
-    elsif @selected_by_player == 'Rock' && @selected_by_ai == 'Paper'
-      @winner = 'AI'
-    elsif @selected_by_player == 'Rock' && @selected_by_ai == 'Scissors'
-      @winner = 'You'
-    elsif @selected_by_player == 'Paper' && @selected_by_ai == 'Rock'
-      @winner = 'You'
-    elsif @selected_by_player == 'Paper' && @selected_by_ai == 'Scissors'
-      @winner = 'AI'
-    elsif @selected_by_player == 'Scissors' && @selected_by_ai == 'Rock'
-      @winner = 'AI'
-    elsif @selected_by_player == 'Scissors' && @selected_by_ai == 'Paper'
-      @winner = 'You'
-    end
+    $selected_by_player = session[:player_selection]
+    $selected_by_ai = Match.new.ai_selection
+    @winner = Match.new.declaration_of_winner
     erb(:selected)
   end
 
